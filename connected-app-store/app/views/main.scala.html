@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)(content: Html)(implicit request: RequestHeader)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +11,7 @@
         <meta name="description" content="">
         <meta name="keywords" content="">               
         <link rel="stylesheet" href="@routes.Assets.versioned("css/myStyle.css")"> 
+        <link rel="stylesheet" href="@routes.Assets.versioned("css/bootstrap.css")"> 
         <link rel="stylesheet" href="@routes.Assets.versioned("css/style.css")"> 
         <link rel="apple-touch-icon" media="screen" href="@routes.Assets.versioned("img/apple-touch-icon.png")">        
         <link rel="stylesheet"  href="@routes.Assets.versioned("css/page.min.css")">

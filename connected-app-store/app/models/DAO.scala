@@ -77,7 +77,7 @@ class DAO @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec:Execu
   } 
 
 // Get all Application
-  def getAllApplication(category : UUID) : Future[Seq[Application]] = db.run{
+  def getAllApplication(category : UUID) : Future[Seq[Application]] = db.run{    
       application.filter(_.appCategory === category ).result
   }
 
@@ -85,6 +85,12 @@ class DAO @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec:Execu
   def getApplicationByName(name: String): Future[Option[Application]]= db.run{
     application.filter(_.name === name).result.headOption
   }
+
+  // Search for matches
+  def searchApplication(appName: String): Future[Seq[Application]]= db.run{
+    application.filter(_.name like s"%$appName%" ).result
+  }
+
 
 // Remove an application
   def removeApplication(app : String) = db.run{

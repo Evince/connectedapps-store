@@ -1,5 +1,5 @@
-@()
-
+@()(implicit request: RequestHeader)
+@import helper._
 <!-- Header -->
 <header id="header-plate" class="header h-fullscreen text-white bg-fixed bg-size-contain">
     <div class="overlay opacity-95 myHeader"></div>
@@ -7,17 +7,18 @@
       <div class="row align-items-center h-100">
         <div class="col-md-8 mx-auto text-center">
 
-          <h1 class="display-41" data-font="Raleway:800">Connected App Store</h1>
+          <h1 class="display-41" data-font="Raleway:800">Connected Apps Store</h1>
           <p class="lead fw-400">World best applications.</p>
 
-          <form class="rounded p-5 mt-7">
+          <form method="POST" action="@routes.HomeController.searchList" class="rounded p-5 mt-7">
+            @CSRF.formField
             <div class="row">
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="ti-search mt-1"></i></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Search Application name">
+                  </div>                  
+                  <input type="text" list="me" name="search" class="form-control" placeholder="Search Application name">
                 </div>
               </div>
 

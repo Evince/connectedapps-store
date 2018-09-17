@@ -1,4 +1,4 @@
-@(categories : Seq[Category])
+@(categories : Seq[Category])(implicit request: RequestHeader)
 
 @main("Welcome to Play") {
   
@@ -11,13 +11,11 @@
               <h2>Application category</h2>
               <hr>              
             </header>
-  
-  
             <div class="row gap-y">
               <!-- Application category loop -->
               @for(category <- categories){                
               <div class="col-md-6 col-lg-3">                
-                <a class="card text-white text-center py-6" id="category-card" href="@routes.HomeController.appList(category.category_name, category.id)">
+                <a class="card text-white text-center py-6" id="category-card" href="@routes.HomeController.appList(category.id, category.category_name)">
                   <div class="position-relative">
                     <!-- <p><i class="fa fa-wordpress lead-5 opacity-70"></i></p> -->
                     <h5 class="mb-0">@category.category_name</h5>                    
@@ -26,9 +24,7 @@
               </div>
             }
             </div>
-          </div>
-        
-
+          </div>        
       </main>
   
 }

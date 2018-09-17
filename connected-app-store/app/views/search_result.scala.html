@@ -1,0 +1,45 @@
+@(applications : Seq[Application],name: String)(implicit request: RequestHeader)
+
+@base(name) {
+  
+    <main class="main-content">       
+          <div class="container">
+            <header class="center">              
+              <h2>Search Result</h2>
+              <hr>              
+            </header>              
+              <!-- Search result list -->
+              @if(!applications.isEmpty){
+                <div class="row gap-y">
+              @for(application <- applications){                
+                <div class="col-md-7">
+                    <img class="img" src="@{routes.Assets.versioned("img/"+application.image)}" alt="@application.name">
+                    <div class="app-name"><a href="@{routes.HomeController.appDetail(application.name,application.name)}"><h5>@application.name</h5></a></div>
+                  </div>      
+                      <div class="col-md-3">
+                        <div class="app-content">
+                          Rating:
+                            @for( value <- 1 to application.rating ){
+                              <span class="star-style">&starf;</span>                                         
+                            }                                                
+                                  <br/>                         
+                            <small>Size: @application.size mb</small>
+                          </div>
+                      </div>      
+                      <div class="col-md-2">
+                          <div class="app-content">
+                          <a class="btn btn-primary btn-position" href="#">Install</a>
+                      </div>
+                    </div>
+               }
+              </div>
+            </div>  
+              } else{
+              </div>  
+                <div class="text-position">              
+                    <h2>Application '@name' not found</h2>                           
+                </div>
+              }
+              <div class="footer-gap"></div>              
+      </main>
+}        

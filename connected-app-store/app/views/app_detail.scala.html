@@ -1,4 +1,4 @@
-@(application : Application, name:String)
+@(application : Application, name:String)(implicit request: RequestHeader)
 
 @base(name + " details") {
   
@@ -16,8 +16,8 @@
                     <h3>Application functionalities</h3>
                     <p>@application.longDescription</p>
                     <br>
-                    <a class="btn btn-lg btn-round btn-primary shadow-3" href="#">Download</a>
-                    <a class="btn btn-lg btn-round btn-info shadow-3" href="@{routes.HomeController.appList(name,application.appCategory)}">Back</a>
+                    <a class="btn btn-lg btn-round btn-primary shadow-3" href="#">Install</a>
+                    <a class="btn btn-lg btn-round btn-info shadow-3" href="@{routes.HomeController.appList(application.appCategory,name)}">Back</a>
                   </div>
           </div>       
       </main>

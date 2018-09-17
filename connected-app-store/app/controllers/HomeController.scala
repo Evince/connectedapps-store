@@ -13,8 +13,17 @@ class HomeController @Inject()(cc: ControllerComponents,
                               (implicit ec: ExecutionContext)
                               extends AbstractController(cc) {
 
+  // def categoryList = {
+  //   var result = Seq[Category]()
+  //    repo.getAllCategory.map(
+  //      r => result
+  //    )
+  //    print(result)
+  //    Future(result)
+  // }
+
   def index() = Action.async { implicit request =>    
-    repo.getAllCategory.map ( result =>
+    repo.getAllCategory.map ( result =>        
      Ok(views.html.index(result)) 
     )
   }
@@ -24,8 +33,7 @@ class HomeController @Inject()(cc: ControllerComponents,
       ???
   }
 
-   def appDetail( category: String, name: String ) = Action.async { implicit request => 
-
+   def appDetail( category: String, name: String) = Action.async { implicit request =>             
         val result =for{
       detail <-   repo.getApplicationByName(name)
 
@@ -38,13 +46,17 @@ class HomeController @Inject()(cc: ControllerComponents,
     }   
   }
 
-  def appList(name:String, category: UUID) = Action.async { implicit request =>      
-      repo.getAllApplication(category).map( result =>
+  def appList( category: UUID, name:String) = Action.async { implicit request =>      
+      repo.getAllApplication(category)
+      .map( result =>
         Ok(views.html.app_list(result,name))
       )      
   }
 
-  def searchList() = Action.async { implicit request => 
-      ???
+  def searchList = Action.async(parse.formUrlEncoded) { implicit request =>   
+      val name = request.body.get("search").get.mkString.trim    
+      repo.searchApplication(name).map( result =>
+        Ok(views.html.search_result(result,name))
+      )                  
   }
 }
