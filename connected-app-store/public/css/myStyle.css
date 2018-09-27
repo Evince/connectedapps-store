@@ -66,6 +66,10 @@
     margin-right: 3px;
 }
 
+#container-padd{
+    padding-left:50px;
+}
+
 .right{
     float: right;
     height: 100%;

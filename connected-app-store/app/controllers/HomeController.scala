@@ -18,22 +18,9 @@ class HomeController @Inject()(cc: ControllerComponents, repo: DAO)
     )
   }
 
-  def error() = Action.async { implicit request =>
-      ???
+  def subscription(name: String) = Action { implicit request =>
+         Ok(views.html.install_page(name))
   }
-
-//   def appDetail( category: String, name: String) = Action.async { implicit request =>
-//        val result =for{
-//      detail <-   repo.getApplicationByName(name)
-//
-//  } yield (detail)
-//    result.map {  detail =>
-//      detail match {
-//            case Some(x) => Ok(views.html.app_detail(x,category))
-//            case None => Ok
-//      }
-//    }
-//  }
 
   def appDetail( category: String, name: String) = Action.async { implicit request =>
 

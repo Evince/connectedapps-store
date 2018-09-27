@@ -1,6 +1,8 @@
 
 GET     /                                 controllers.HomeController.index
 
+GET     /app/subscribe/:name     controllers.HomeController.subscription(name: String)
+
 GET     /app/:name/:category         controllers.HomeController.appList( category: java.util.UUID, name:String )
 
 GET     /app/detail/:category/:name     controllers.HomeController.appDetail( category: String, name: String)

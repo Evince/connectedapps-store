@@ -6,7 +6,7 @@
         name:String,
         category: String)(implicit request: RequestHeader)
 
-@base(name + " details") {
+@base("Application " + name + " details") {
 
     <main class="main-content">
 
@@ -21,7 +21,7 @@
 
                 <div class="col-md-7">
                     <img class="img" src="@{routes.Assets.versioned("img/"+application.image)}" alt="@application.name">
-                    <div class="app-name"><a href="@{routes.HomeController.appDetail(name,application.name)}"><h5>@application.name</h5></a></div>
+                    <div class="app-name"><h2>@application.name</h2></div>
                 </div>
 
                 <div class="col-md-3">
@@ -37,12 +37,12 @@
 
                 <div class="col-md-2">
                     <div class="app-content">
-                        <a class="btn btn-primary btn-position" href="#">Install</a>
+                        <a class="btn btn-primary btn-position" href="@{routes.HomeController.subscription(name)}">Subscription</a>
                     </div>
                 </div>
 
 
-<div>
+        <div class="container" id="container-padd">
                 <h4>Description</h4>
                 <p>@application.longDescription</p>
     <br>
@@ -70,16 +70,17 @@
                     <h4>Bearer</h4>
                         <ul>
                             @for(bearer <- bearer) {
-                                <li>@bearer</li>
+                                <li>@bearer.bearertext</li>
                             }
                         </ul>
     <br>
 
                     <h4>Tag</h4>
+                        <ul>
                         @for(tag <- mytags) {
                             <li>@tag.apptag</li>
                         }
-
+                        </ul>
                     </div>
                 </div>
             </div>
