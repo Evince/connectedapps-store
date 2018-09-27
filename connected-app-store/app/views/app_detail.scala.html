@@ -1,4 +1,10 @@
-@(application : Application, name:String)(implicit request: RequestHeader)
+@(      application : connectedApplication,
+        requirement : Seq[Requirement],
+        bearer : Seq[Bearer],
+        mytags: Seq[AppTag],
+        active: Seq[Activation],
+        name:String,
+        category: String)(implicit request: RequestHeader)
 
 @base(name + " details") {
   

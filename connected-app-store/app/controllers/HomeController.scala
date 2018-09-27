@@ -8,19 +8,9 @@ import models._
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents,
-                              repo: DAO) 
+class HomeController @Inject()(cc: ControllerComponents, repo: DAO)
                               (implicit ec: ExecutionContext)
                               extends AbstractController(cc) {
-
-  // def categoryList = {
-  //   var result = Seq[Category]()
-  //    repo.getAllCategory.map(
-  //      r => result
-  //    )
-  //    print(result)
-  //    Future(result)
-  // }
 
   def index() = Action.async { implicit request =>    
     repo.getAllCategory.map ( result =>        
@@ -28,23 +18,42 @@ class HomeController @Inject()(cc: ControllerComponents,
     )
   }
 
-  def error() = Action.async { implicit request => 
-      // Ok(views.html.404())
+  def error() = Action.async { implicit request =>
       ???
   }
 
-   def appDetail( category: String, name: String) = Action.async { implicit request =>             
-        val result =for{
-      detail <-   repo.getApplicationByName(name)
+//   def appDetail( category: String, name: String) = Action.async { implicit request =>
+//        val result =for{
+//      detail <-   repo.getApplicationByName(name)
+//
+//  } yield (detail)
+//    result.map {  detail =>
+//      detail match {
+//            case Some(x) => Ok(views.html.app_detail(x,category))
+//            case None => Ok
+//      }
+//    }
+//  }
 
-  } yield (detail)
-    result.map {  detail =>
-      detail match {
-            case Some(x) => Ok(views.html.app_detail(x,category)) 
-            case None => Ok
+  def appDetail( category: String, name: String) = Action.async { implicit request =>
+
+    repo.getApplicationByName(name) flatMap { app =>
+      repo.getApplicationRequirmentByName(name) flatMap { req =>
+        repo.getApplicationBearerByName(name) flatMap { bearer =>
+          repo.getApplicationTagByName(name) flatMap { tag =>
+            repo.getApplicationactivationByName(name) map { active =>
+              app match{
+                case Some(e) => Ok(views.html.app_detail(e,req,bearer,tag,active,name,category))
+                case None => BadRequest
+              }
+            }
+          }
+        }
       }
-    }   
-  }
+    }
+   }
+
+
 
   def appList( category: UUID, name:String) = Action.async { implicit request =>      
       repo.getAllApplication(category)
