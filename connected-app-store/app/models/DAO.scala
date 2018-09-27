@@ -61,7 +61,9 @@ class DAO @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec:Execu
 
     def longDescription = column[String]("longdescription")
 
-    def * = (name, appCategory, description, rating,size, image, longDescription) <> ((connectedApplication.apply _).tupled, connectedApplication.unapply)
+    def cost = column[Double]("cost")
+
+    def * = (name, appCategory, description, rating,size, image, longDescription, cost) <> ((connectedApplication.apply _).tupled, connectedApplication.unapply)
 
     def category_fk_Application = foreignKey("categoryKey",appCategory, category )( _.id, onUpdate=ForeignKeyAction.Restrict, onDelete=ForeignKeyAction.Cascade)
 

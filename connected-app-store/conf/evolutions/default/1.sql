@@ -13,7 +13,8 @@ description varchar(200),
 rating INTEGER,
 app_size integer,
 image text,
-longdescription text);
+longdescription text,
+cost decimal(7,2));
 
 CREATE TABLE IF NOT EXISTS requirements (
 id bigserial,

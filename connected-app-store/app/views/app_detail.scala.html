@@ -2,29 +2,88 @@
         requirement : Seq[Requirement],
         bearer : Seq[Bearer],
         mytags: Seq[AppTag],
-        active: Seq[Activation],
+        activation: Seq[Activation],
         name:String,
         category: String)(implicit request: RequestHeader)
 
 @base(name + " details") {
-  
-    <main class="main-content">       
-          <div class="container">
-            <header class="center">              
-              <h2>@name</h2>
-              <hr>              
-            </header>  
-  
-            <div class="description">
-                    <h2>@application.name.toUpperCase</h2><br>
-                    <p>@application.description</p>
-                    <br>
-                    <h3>Application functionalities</h3>
-                    <p>@application.longDescription</p>
-                    <br>
-                    <a class="btn btn-lg btn-round btn-primary shadow-3" href="#">Install</a>
-                    <a class="btn btn-lg btn-round btn-info shadow-3" href="@{routes.HomeController.appList(application.appCategory,name)}">Back</a>
-                  </div>
-          </div>       
-      </main>
+
+    <main class="main-content">
+
+
+        <div class="container">
+            <header class="center">
+                <h2>@name</h2>
+                <hr>
+            </header>
+
+            <div class="row gap-y">
+
+                <div class="col-md-7">
+                    <img class="img" src="@{routes.Assets.versioned("img/"+application.image)}" alt="@application.name">
+                    <div class="app-name"><a href="@{routes.HomeController.appDetail(name,application.name)}"><h5>@application.name</h5></a></div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="app-content">
+                        Rating:
+                        @for( value <- 1 to application.rating ){
+                            <span class="star-style">&starf;</span>
+                        }
+                        <br/>
+                        <small>Size: @application.size mb</small>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="app-content">
+                        <a class="btn btn-primary btn-position" href="#">Install</a>
+                    </div>
+                </div>
+
+
+<div>
+                <h4>Description</h4>
+                <p>@application.longDescription</p>
+    <br>
+
+
+                <h4>Requirements</h4>
+                    <ul>
+                    @for(require <- requirement) {
+                            <li>@require.requiretext</li>
+                    }
+                    </ul>
+
+    <br>
+                    <h4>Activation Cost</h4>
+                        <p>@application.cost</p>
+    <br>
+                    <h4>Activation Period</h4>
+                        <ul>
+                            @for(active <- activation) {
+                                <li>@active.active</li>
+                            }
+                        </ul>
+    <br>
+
+                    <h4>Bearer</h4>
+                        <ul>
+                            @for(bearer <- bearer) {
+                                <li>@bearer</li>
+                            }
+                        </ul>
+    <br>
+
+                    <h4>Tag</h4>
+                        @for(tag <- mytags) {
+                            <li>@tag.apptag</li>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        <div class="footer-gap"></div>
+    </main>
+
 }        

@@ -56,6 +56,16 @@
     margin-right: 3px;
 }
 
+.image-detail{
+    margin-top: 5px;
+    width: 100px;
+    height: 98%;
+    padding: 2px;
+    padding-bottom: 5px;
+    float: left;
+    margin-right: 3px;
+}
+
 .right{
     float: right;
     height: 100%;
