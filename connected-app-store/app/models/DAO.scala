@@ -88,7 +88,7 @@ class DAO @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec:Execu
 
   // Search for matches
   def searchApplication(appName: String): Future[Seq[connectedApplication]]= db.run{
-    application.filter(_.name like s"%$appName%" ).result
+    application.filter(_.name.toLowerCase like s"%$appName%".toLowerCase ).result
   }
 
 

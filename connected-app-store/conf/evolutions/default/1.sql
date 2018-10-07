@@ -11,7 +11,6 @@ app_name varchar(50) primary key,
 app_category UUID references category(id),
 description varchar(200),
 rating INTEGER default 0,
-app_size integer default 1,
 image text,
 longdescription text,
 cost decimal(7,2) default 0.00);
