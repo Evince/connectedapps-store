@@ -1,30 +1,29 @@
-@(categories : Seq[Category])(implicit request: RequestHeader)
+@(categories : Seq[Category], applications : Seq[String])(implicit request: RequestHeader)
 
-@main("Connected Apps Store") {
+@main("Connected app store",categories) {
   
    
     <main class="main-content">
-  
-        
+          
           <div class="container">
             <header class="center">              
-              <h2>Application category</h2>
+              <h2>Applications</h2>
               <hr>              
             </header>
             <div class="row gap-y">
               <!-- Application category loop -->
-              @for(category <- categories){                
+              @for(application <- applications){                  
               <div class="col-md-6 col-lg-3">                
-                <a class="card text-white text-center py-6" id="category-card" href="@routes.HomeController.appList(category.id, category.category_name)">
-                  <div class="position-relative">
-                    <!-- <p><i class="fa fa-wordpress lead-5 opacity-70"></i></p> -->
-                    <h5 class="mb-0">@category.category_name</h5>                    
+                <a class="card text-white text-center py-6" id="category-card" href="@{routes.HomeController.appDetail(application)}">
+                  <div class="position-relative">                    
+                    <h5 class="mb-0">@application</h5>                    
                   </div>
                 </a>
               </div>
             }
             </div>
-          </div>        
+          </div>     
+          <div class="footer-gap"></div>   
       </main>
   
 }

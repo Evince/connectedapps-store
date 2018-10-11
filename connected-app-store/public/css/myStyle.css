@@ -145,3 +145,8 @@
 .footer-gap{
   margin-bottom: 50px;
 }
+
+nav #link-color{
+  color: black;
+  padding-left: 10px;
+}

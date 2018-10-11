@@ -1,5 +1,5 @@
 @(applications : Seq[connectedApplication], name:String)(implicit request: RequestHeader)
-
+ 
 @base(name) {
   
     <main class="main-content">       
@@ -11,10 +11,10 @@
   
             <div class="row gap-y">
               <!-- Application category loop -->
-              @for(application <- applications){                 
+              @for(application <- applications){     
             <div class="col-md-7">
               <img class="img" src="@{routes.Assets.versioned("img/"+application.image)}" alt="@application.name">
-              <div class="app-name"><a href="@{routes.HomeController.appDetail(name,application.name)}"><h5>@application.name</h5></a></div>
+              <div class="app-name"><a href="@{routes.HomeController.appDetail(application.name)}"><h5>@application.name</h5></a></div>
             </div>
 
                 <div class="col-md-3">
@@ -23,7 +23,7 @@
                       @for( value <- 1 to application.rating ){
                         <span class="star-style">&starf;</span>                                         
                       }                                                
-                            <br/>                         
+                            <br/>                                                   
                     </div>
                 </div>
 

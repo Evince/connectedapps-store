@@ -1,4 +1,4 @@
-@(title: String)(content: Html)(implicit request: RequestHeader)
+@(title: String, categories : Seq[Category])(content: Html)(implicit request: RequestHeader)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +20,7 @@
     </head>
     <body>
 
-        @main_header()
+        @main_header(categories)
         @top()
         @content
         @footer()

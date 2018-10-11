@@ -13,16 +13,18 @@ class HomeController @Inject()(cc: ControllerComponents, repo: DAO)
                               extends AbstractController(cc) {
 
   def index() = Action.async { implicit request =>    
+    repo.ApplicationList flatMap{ Application =>
     repo.getAllCategory.map ( result =>        
-     Ok(views.html.index(result)) 
+     Ok(views.html.index(result,Application)) 
     )
   }
+ }
 
   def subscription(name: String) = Action { implicit request =>
          Ok(views.html.install_page(name))
   }
 
-  def appDetail( category: String, name: String) = Action.async { implicit request =>
+  def appDetail(name: String) = Action.async { implicit request =>
 
     repo.getApplicationByName(name) flatMap { app =>
       repo.getApplicationRequirmentByName(name) flatMap { req =>
@@ -30,7 +32,7 @@ class HomeController @Inject()(cc: ControllerComponents, repo: DAO)
           repo.getApplicationTagByName(name) flatMap { tag =>
             repo.getApplicationactivationByName(name) map { active =>
               app match{
-                case Some(e) => Ok(views.html.app_detail(e,req,bearer,tag,active,name,category))
+                case Some(e) => Ok(views.html.app_detail(e,req,bearer,tag,active,name))
                 case None => BadRequest
               }
             }
@@ -55,4 +57,9 @@ class HomeController @Inject()(cc: ControllerComponents, repo: DAO)
         Ok(views.html.search_result(result,name))
       )                  
   }
+
+  def error404 = Action{implicit request =>
+    Ok(views.html.page_not_found())
+  }
+
 }

@@ -3,8 +3,7 @@
         bearer : Seq[Bearer],
         mytags: Seq[AppTag],
         activation: Seq[Activation],
-        name:String,
-        category: String)(implicit request: RequestHeader)
+        name:String)(implicit request: RequestHeader)
 
 @base("Application " + name + " details") {
 
@@ -30,7 +29,7 @@
                         @for( value <- 1 to application.rating ){
                             <span class="star-style">&starf;</span>
                         }
-                        <br/>
+                        <br/>                        
                     </div>
                 </div>
 

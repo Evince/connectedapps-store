@@ -53,9 +53,7 @@ class DAO @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec:Execu
 
     def description = column[String]("description")
 
-    def rating = column[Int]("rating")
-
-    def size = column[Double]("app_size")
+    def rating = column[Int]("rating")    
 
     def image = column[String]("image")
 
@@ -63,7 +61,7 @@ class DAO @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec:Execu
 
     def cost = column[Double]("cost")
 
-    def * = (name, appCategory, description, rating,size, image, longDescription, cost) <> ((connectedApplication.apply _).tupled, connectedApplication.unapply)
+    def * = (name, appCategory, description, rating, image, longDescription, cost) <> ((connectedApplication.apply _).tupled, connectedApplication.unapply)
 
     def category_fk_Application = foreignKey("categoryKey",appCategory, category )( _.id, onUpdate=ForeignKeyAction.Restrict, onDelete=ForeignKeyAction.Cascade)
 
@@ -82,13 +80,18 @@ class DAO @Inject() (dbConfigProvider: DatabaseConfigProvider)(implicit ec:Execu
   }
 
   // Get application by App name
-  def getApplicationByName(name: String): Future[Option[connectedApplication]]= db.run{
+  def getApplicationByName(name:String): Future[Option[connectedApplication]]= db.run{
     application.filter(_.name === name).result.headOption
+  }
+
+  //Get list of all Applications
+  def ApplicationList: Future[Seq[String]]= db.run{
+    application.map(_.name).result
   }
 
   // Search for matches
   def searchApplication(appName: String): Future[Seq[connectedApplication]]= db.run{
-    application.filter(_.name.toLowerCase like s"%$appName%".toLowerCase ).result
+    application.filter(_.name.toLowerCase  like s"%$appName%".toLowerCase ).result
   }
 
 
