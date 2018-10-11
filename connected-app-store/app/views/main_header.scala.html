@@ -1,0 +1,36 @@
+@(categories : Seq[Category])(implicit request: RequestHeader)
+@import helper._
+
+    <nav class="navbar navbar-expand-lg navbar-light myHeader" id="nav_position">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+            <div class="navbar-left mr-4">
+            <button class="navbar-toggler" type="button">&#9776;</button>
+            <a class="apperance" href="@routes.HomeController.index">
+             Connected App Store       
+            </a>
+            <div>
+              <section class="navbar-mobile">
+                <span class="navbar-divider d-mobile-none"></span>
+      
+                <ul class="nav nav-navbar nav-transform-none mr-auto">
+      
+                  <li class="nav-item">
+                    <a class="nav-link"> Category list <span class="arrow"></span></a>
+                    <nav class="nav">
+                      @for(category <- categories){
+                        <a href="@routes.HomeController.appList(category.id, category.category_name)" id="link-color">
+                          @category.category_name</a>                      
+                    }
+                    </nav>
+                  </li>
+              </section>
+      
+            </div>
+          </div>
+        </div>                    
+            </div>
+        </div>
+      </nav>
+

@@ -1,24 +1,88 @@
-@(application : Application, name:String)
+@(      application : connectedApplication,
+        requirement : Seq[Requirement],
+        bearer : Seq[Bearer],
+        mytags: Seq[AppTag],
+        activation: Seq[Activation],
+        name:String)(implicit request: RequestHeader)
 
-@base(name + " details") {
-  
-    <main class="main-content">       
-          <div class="container">
-            <header class="center">              
-              <h2>@name</h2>
-              <hr>              
-            </header>  
-  
-            <div class="description">
-                    <h2>@application.name.toUpperCase</h2><br>
-                    <p>@application.description</p>
-                    <br>
-                    <h3>Application functionalities</h3>
-                    <p>@application.longDescription</p>
-                    <br>
-                    <a class="btn btn-lg btn-round btn-primary shadow-3" href="#">Download</a>
-                    <a class="btn btn-lg btn-round btn-info shadow-3" href="@{routes.HomeController.appList(name,application.appCategory)}">Back</a>
-                  </div>
-          </div>       
-      </main>
+@base("Application " + name + " details") {
+
+    <main class="main-content">
+
+
+        <div class="container">
+            <header class="center">
+                <h2>@name</h2>
+                <hr>
+            </header>
+
+            <div class="row gap-y">
+
+                <div class="col-md-7">
+                    <img class="img" src="@{routes.Assets.versioned("img/"+application.image)}" alt="@application.name">
+                    <div class="app-name"><h2>@application.name</h2></div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="app-content">
+                        Rating:
+                        @for( value <- 1 to application.rating ){
+                            <span class="star-style">&starf;</span>
+                        }
+                        <br/>                        
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="app-content">
+                        <a class="btn btn-primary btn-position" href="@{routes.HomeController.subscription(name)}">Subscribe</a>
+                    </div>
+                </div>
+
+
+        <div class="container" id="container-padd">
+                <h4>Description</h4>
+                <p>@application.longDescription</p>
+    <br>
+
+
+                <h4>Requirements</h4>
+                    <ul>
+                    @for(require <- requirement) {
+                            <li>@require.requiretext</li>
+                    }
+                    </ul>
+
+    <br>
+                    <h4>Activation Cost</h4>
+                        <p>@application.cost</p>
+    <br>
+                    <h4>Activation Period</h4>
+                        <ul>
+                            @for(active <- activation) {
+                                <li>@active.active</li>
+                            }
+                        </ul>
+    <br>
+
+                    <h4>Bearer</h4>
+                        <ul>
+                            @for(bearer <- bearer) {
+                                <li>@bearer.bearertext</li>
+                            }
+                        </ul>
+    <br>
+
+                    <h4>Tag</h4>
+                        <ul>
+                        @for(tag <- mytags) {
+                            <li>@tag.apptag</li>
+                        }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <div class="footer-gap"></div>
+    </main>
+
 }        

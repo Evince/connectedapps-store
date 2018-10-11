@@ -1,36 +1,29 @@
+@()(implicit request: RequestHeader)
+@import helper._
 
-@()
-
-    <!-- Navbar -->    
     <nav class="navbar navbar-expand-lg navbar-light myHeader" id="nav_position">
-        <div class="container">
-  
-          <div class="navbar-left mr-4">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-10">
+            <div class="navbar-left mr-4">
             <button class="navbar-toggler" type="button">&#9776;</button>
             <a class="apperance" href="@routes.HomeController.index">
-             Connected app store              
+             Connected app store       
             </a>
           </div>
-  
-          <section class="navbar-mobile">
-            <span class="navbar-divider d-mobile-none"></span>
-  
-            <ul class="nav nav-navbar nav-transform-none mr-auto">
-  
-              <li class="nav-item">
-                <a class="nav-link" href="#">All Items <span class="arrow"></span></a>
-                <nav class="nav">
-                  <a class="nav-link" href="#">Populars</a>
-                  <a class="nav-link" href="#">Featured</a>
-                  <a class="nav-link" href="#">Top New</a>
-                  <a class="nav-link" href="#">Top Authors</a>
-                  <a class="nav-link" href="#">Collections</a>
-                </nav>
-              </li>  
-            </ul>
-  
-            </section>
-  
+        </div>      
+          <div class="col-md-2">
+                  <form method="POST" action="@routes.HomeController.searchList">
+                      @CSRF.formField
+                      <div class="input-group">
+                          <div class="input-group-prepend">
+                      @*<span id="View-look-span" class="input-group-addon"></span>*@
+                      </div> 
+                      <input type="search" class="form-control" name="search" id="View-look" placeholder="search">
+                      </div>    
+                  </form>
+          </div>             
+            </div>
         </div>
-      </nav><!-- /.navbar -->
+      </nav>
 

@@ -8,43 +8,58 @@ import models._
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents,
-                              repo: DAO) 
+class HomeController @Inject()(cc: ControllerComponents, repo: DAO)
                               (implicit ec: ExecutionContext)
                               extends AbstractController(cc) {
 
   def index() = Action.async { implicit request =>    
-    repo.getAllCategory.map ( result =>
-     Ok(views.html.index(result)) 
+    repo.ApplicationList flatMap{ Application =>
+    repo.getAllCategory.map ( result =>        
+     Ok(views.html.index(result,Application)) 
     )
   }
+ }
 
-  def error() = Action.async { implicit request => 
-      // Ok(views.html.404())
-      ???
+  def subscription(name: String) = Action { implicit request =>
+         Ok(views.html.install_page(name))
   }
 
-   def appDetail( category: String, name: String ) = Action.async { implicit request => 
+  def appDetail(name: String) = Action.async { implicit request =>
 
-        val result =for{
-      detail <-   repo.getApplicationByName(name)
-
-  } yield (detail)
-    result.map {  detail =>
-      detail match {
-            case Some(x) => Ok(views.html.app_detail(x,category)) 
-            case None => Ok
+    repo.getApplicationByName(name) flatMap { app =>
+      repo.getApplicationRequirmentByName(name) flatMap { req =>
+        repo.getApplicationBearerByName(name) flatMap { bearer =>
+          repo.getApplicationTagByName(name) flatMap { tag =>
+            repo.getApplicationactivationByName(name) map { active =>
+              app match{
+                case Some(e) => Ok(views.html.app_detail(e,req,bearer,tag,active,name))
+                case None => BadRequest
+              }
+            }
+          }
+        }
       }
-    }   
-  }
+    }
+   }
 
-  def appList(name:String, category: UUID) = Action.async { implicit request =>      
-      repo.getAllApplication(category).map( result =>
+
+
+  def appList( category: UUID, name:String) = Action.async { implicit request =>      
+      repo.getAllApplication(category)
+      .map( result =>
         Ok(views.html.app_list(result,name))
       )      
   }
 
-  def searchList() = Action.async { implicit request => 
-      ???
+  def searchList = Action.async(parse.formUrlEncoded) { implicit request =>   
+      val name = request.body.get("search").get.mkString.trim    
+      repo.searchApplication(name).map( result =>
+        Ok(views.html.search_result(result,name))
+      )                  
   }
+
+  def error404 = Action{implicit request =>
+    Ok(views.html.page_not_found())
+  }
+
 }
